@@ -74,6 +74,34 @@ public:
     QString autoDisarmParameter                 (Vehicle* vehicle) override { Q_UNUSED(vehicle); return QStringLiteral("DISARM_DELAY"); }
     bool    supportsSmartRTL                    (void) const override { return true; }
 
+protected:
+    QString     _stabilizeFlightMode;
+    QString     _acroFlightMode;
+    QString     _altHoldFlightMode;
+    QString     _autoFlightMode;
+    QString     _guidedFlightMode;
+    QString     _loiterFlightMode;
+    QString     _rtlFlightMode;
+    QString     _circleFlightMode;
+    QString     _landFlightMode;
+    QString     _driftFlightMode;
+    QString     _sportFlightMode;
+    QString     _flipFlightMode;
+    QString     _autotuneFlightMode;
+    QString     _posHoldFlightMode;
+    QString     _brakeFlightMode;
+    QString     _throwFlightMode;
+    QString     _avoidADSBFlightMode;
+    QString     _guidedNoGPSFlightMode;
+    QString     _smartRtlFlightMode;
+    QString     _flowHoldFlightMode;
+    QString     _followFlightMode;
+    QString     _zigzagFlightMode;
+    QString     _systemIDFlightMode;
+    QString     _autoRotateFlightMode;
+    QString     _autoRTLFlightMode;
+    QString     _turtleFlightMode;
+
 private:
     static bool _remapParamNameIntialized;
     static FirmwarePlugin::remapParamNameMajorVersionMap_t  _remapParamName;

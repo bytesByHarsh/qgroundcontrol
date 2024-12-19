@@ -52,7 +52,61 @@ APMCopterMode::APMCopterMode(uint32_t mode, bool settable) :
 }
 
 ArduCopterFirmwarePlugin::ArduCopterFirmwarePlugin(void)
+    : _stabilizeFlightMode      ("Stabilize")
+    , _acroFlightMode           ("Acro")
+    , _altHoldFlightMode        ("Altitude Hold")
+    , _autoFlightMode           ("Auto")
+    , _guidedFlightMode         ("Guided")
+    , _loiterFlightMode         ("Loiter")
+    , _rtlFlightMode            ("RTL")
+    , _circleFlightMode         ("Circle")
+    , _landFlightMode           ("Land")
+    , _driftFlightMode          ("Drift")
+    , _sportFlightMode          ("Sport")
+    , _flipFlightMode           ("Flip")
+    , _autotuneFlightMode       ("Autotune")
+    , _posHoldFlightMode        ("Position Hold")
+    , _brakeFlightMode          ("Brake")
+    , _throwFlightMode          ("Throw")
+    , _avoidADSBFlightMode      ("Avoid ADSB")
+    , _guidedNoGPSFlightMode    ("Guided No GPS")
+    , _smartRtlFlightMode       ("Smart RTL")
+    , _flowHoldFlightMode       ("Flow Hold")
+    , _followFlightMode         ("Follow")
+    , _zigzagFlightMode         ("ZigZag")
+    , _systemIDFlightMode       ("SystemID")
+    , _autoRotateFlightMode     ("AutoRotate")
+    , _autoRTLFlightMode        ("AutoRTL")
+    , _turtleFlightMode         ("Turtle")
 {
+    setModeEnumToModeStringMapping({
+        { APMCopterMode::STABILIZE,    _stabilizeFlightMode     },
+        { APMCopterMode::ACRO,         _acroFlightMode          },
+        { APMCopterMode::ALT_HOLD,     _altHoldFlightMode       },
+        { APMCopterMode::AUTO,         _autoFlightMode          },
+        { APMCopterMode::GUIDED,       _guidedFlightMode        },
+        { APMCopterMode::LOITER,       _loiterFlightMode        },
+        { APMCopterMode::RTL,          _rtlFlightMode           },
+        { APMCopterMode::CIRCLE,       _circleFlightMode        },
+        { APMCopterMode::LAND,         _landFlightMode          },
+        { APMCopterMode::DRIFT,        _driftFlightMode         },
+        { APMCopterMode::SPORT,        _sportFlightMode         },
+        { APMCopterMode::FLIP,         _flipFlightMode          },
+        { APMCopterMode::AUTOTUNE,     _autotuneFlightMode      },
+        { APMCopterMode::POS_HOLD,     _posHoldFlightMode       },
+        { APMCopterMode::BRAKE,        _brakeFlightMode         },
+        { APMCopterMode::THROW,        _throwFlightMode         },
+        { APMCopterMode::AVOID_ADSB,   _avoidADSBFlightMode     },
+        { APMCopterMode::GUIDED_NOGPS, _guidedNoGPSFlightMode   },
+        { APMCopterMode::SMART_RTL,    _smartRtlFlightMode      },
+        { APMCopterMode::FLOWHOLD,     _flowHoldFlightMode      },
+        { APMCopterMode::FOLLOW,       _followFlightMode        },
+        { APMCopterMode::ZIGZAG,       _zigzagFlightMode        },
+        { APMCopterMode::SYSTEMID,     _systemIDFlightMode      },
+        { APMCopterMode::AUTOROTATE,   _autoRotateFlightMode    },
+        { APMCopterMode::AUTO_RTL,     _autoRTLFlightMode       },
+        { APMCopterMode::TURTLE,       _turtleFlightMode        },
+    });
     setSupportedModes({
         APMCopterMode(APMCopterMode::STABILIZE,     true),
         APMCopterMode(APMCopterMode::ACRO,          true),

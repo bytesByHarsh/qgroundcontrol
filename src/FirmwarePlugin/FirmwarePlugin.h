@@ -28,6 +28,37 @@ class Autotune;
 class LinkInterface;
 class FactGroup;
 
+
+class FirmwareFlightMode : public QObject
+{
+public:
+    FirmwareFlightMode(QString mode_name,
+                       uint32_t custom_mode,
+                       uint8_t  standard_mode,
+                       bool     cannotBeSet,
+                       bool     advanced
+                       );
+
+    uint32_t    custom_mode     () {return _custom_mode;}
+    uint8_t     standard_mode   () {return _standard_mode;}
+    bool        cannotBeSet     () {return _cannotBeSet;}
+    bool        advanced        () {return _advanced;}
+    // bool        fixedWing       () {return _fixedWing;}
+    // bool        multiRotor      () {return _multiRotor;}
+    QString     mode_name       () {return _mode_name;}
+
+private:
+    uint32_t    _custom_mode;
+    uint8_t     _standard_mode;
+    bool        _cannotBeSet;
+    bool        _advanced;
+    // bool        _fixedWing;
+    // bool        _multiRotor;
+    QString     _mode_name;
+};
+
+typedef QMap<QString, FirmwareFlightMode> FlightModeMap;
+
 /// This is the base class for Firmware specific plugins
 ///
 /// The FirmwarePlugin class represents the methods and objects which are specific to a certain Firmware flight stack.
@@ -357,6 +388,10 @@ public:
     /// Creates Autotune object.
     virtual Autotune* createAutotune(Vehicle *vehicle);
 
+
+    virtual void updateAvailableFlightModes(FlightModeMap flightModeMap);
+    void setModeEnumToModeStringMapping(const QMap<uint32_t, QString>& enumToString);
+
 signals:
     void toolIndicatorsChanged(void);
     void modeIndicatorsChanged(void);
@@ -378,6 +413,9 @@ protected:
 
     // Returns regex QString to extract version information from text
     virtual QString _versionRegex() { return QString(); }
+
+    FlightModeMap           _availableFlightModeMap;
+    QMap<uint32_t,QString>  _modeEnumToString;
 
 protected:
     QVariantList _toolIndicatorList;

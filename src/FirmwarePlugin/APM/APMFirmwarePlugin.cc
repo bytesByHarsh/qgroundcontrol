@@ -66,6 +66,10 @@ QString APMCustomMode::modeString() const
 
 APMFirmwarePlugin::APMFirmwarePlugin(void)
     : _coaxialMotors(false)
+    , _guidedFlightMode     (tr("Guided"))
+    , _rtlFlightMode        (tr("RTL"))
+    , _smartRtlFlightMode   (tr("Smart RTL"))
+    , _autoFlightMode       (tr("Auto"))
 {
     qmlRegisterType<APMFlightModesComponentController>  ("QGroundControl.Controllers", 1, 0, "APMFlightModesComponentController");
     qmlRegisterType<APMAirframeComponentController>     ("QGroundControl.Controllers", 1, 0, "APMAirframeComponentController");
@@ -670,7 +674,7 @@ const QVariantList& APMFirmwarePlugin::toolIndicators(const Vehicle* vehicle)
 
 bool APMFirmwarePlugin::isGuidedMode(const Vehicle* vehicle) const
 {
-    return vehicle->flightMode() == "Guided";
+    return vehicle->flightMode() == _guidedFlightMode;
 }
 
 void APMFirmwarePlugin::_soloVideoHandshake(void)
@@ -751,7 +755,7 @@ QString APMFirmwarePlugin::_internalParameterMetaDataFile(const Vehicle* vehicle
 void APMFirmwarePlugin::setGuidedMode(Vehicle* vehicle, bool guidedMode)
 {
     if (guidedMode) {
-        _setFlightModeAndValidate(vehicle, "Guided");
+        _setFlightModeAndValidate(vehicle, _guidedFlightMode);
     } else {
         pauseVehicle(vehicle);
     }
@@ -993,7 +997,7 @@ bool APMFirmwarePlugin::_guidedModeTakeoff(Vehicle* vehicle, double altitudeRel)
         takeoffAltRel = altitudeRel;
     }
 
-    if (!_setFlightModeAndValidate(vehicle, "Guided")) {
+    if (!_setFlightModeAndValidate(vehicle, _guidedFlightMode)) {
         qgcApp()->showAppMessage(tr("Unable to takeoff: Vehicle failed to change to Guided mode."));
         return false;
     }
@@ -1016,7 +1020,7 @@ void APMFirmwarePlugin::startMission(Vehicle* vehicle)
 {
     if (vehicle->flying()) {
         // Vehicle already in the air, we just need to switch to auto
-        if (!_setFlightModeAndValidate(vehicle, "Auto")) {
+        if (!_setFlightModeAndValidate(vehicle, _autoFlightMode)) {
             qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Auto mode."));
         }
         return;
@@ -1027,12 +1031,12 @@ void APMFirmwarePlugin::startMission(Vehicle* vehicle)
         // In Ardupilot for vtols and airplanes we need to set the mode to auto and then arm, otherwise if arming in guided
         // If the vehicle has tilt rotors, it will arm them in forward flight position, being dangerous.
         if (vehicle->fixedWing()) {
-            if (!_setFlightModeAndValidate(vehicle, "Auto")) {
+            if (!_setFlightModeAndValidate(vehicle, _autoFlightMode)) {
                 qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Auto mode."));
                 return;
             }
         } else {
-            if (!_setFlightModeAndValidate(vehicle, "Guided")) {
+            if (!_setFlightModeAndValidate(vehicle, _guidedFlightMode)) {
                 qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Guided mode."));
                 return;
             }
