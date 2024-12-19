@@ -567,3 +567,13 @@ Autotune* FirmwarePlugin::createAutotune(Vehicle *vehicle)
 {
     return new Autotune(vehicle);
 }
+
+void FirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
+{
+    _availableFlightModeMap = flightModeMap;
+}
+
+void FirmwarePlugin::setModeEnumToModeStringMapping(const QMap<uint32_t, QString> &enumToString)
+{
+    _modeEnumToString = enumToString;
+}

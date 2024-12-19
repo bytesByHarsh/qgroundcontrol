@@ -67,12 +67,41 @@ public:
     bool    multiRotorCoaxialMotors             (Vehicle* vehicle) final;
     bool    multiRotorXConfig                   (Vehicle* vehicle) final;
     QString offlineEditingParamFile             (Vehicle* vehicle) final { Q_UNUSED(vehicle); return QStringLiteral(":/FirmwarePlugin/APM/Copter.OfflineEditing.params"); }
-    QString pauseFlightMode                     (void) const override { return QStringLiteral("Brake"); }
-    QString landFlightMode                      (void) const override { return QStringLiteral("Land"); }
-    QString takeControlFlightMode               (void) const override { return QStringLiteral("Loiter"); }
-    QString followFlightMode                    (void) const override { return QStringLiteral("Follow"); }
+    QString pauseFlightMode                     (void) const override { return _brakeFlightMode; }
+    QString landFlightMode                      (void) const override { return _landFlightMode; }
+    QString takeControlFlightMode               (void) const override { return _loiterFlightMode; }
+    QString followFlightMode                    (void) const override { return _followFlightMode; }
     QString autoDisarmParameter                 (Vehicle* vehicle) override { Q_UNUSED(vehicle); return QStringLiteral("DISARM_DELAY"); }
     bool    supportsSmartRTL                    (void) const override { return true; }
+
+    void    updateAvailableFlightModes          (FlightModeMap flightModeMap) final;
+protected:
+    QString     _stabilizeFlightMode;
+    QString     _acroFlightMode;
+    QString     _altHoldFlightMode;
+    QString     _autoFlightMode;
+    QString     _guidedFlightMode;
+    QString     _loiterFlightMode;
+    QString     _rtlFlightMode;
+    QString     _circleFlightMode;
+    QString     _landFlightMode;
+    QString     _driftFlightMode;
+    QString     _sportFlightMode;
+    QString     _flipFlightMode;
+    QString     _autotuneFlightMode;
+    QString     _posHoldFlightMode;
+    QString     _brakeFlightMode;
+    QString     _throwFlightMode;
+    QString     _avoidADSBFlightMode;
+    QString     _guidedNoGPSFlightMode;
+    QString     _smartRtlFlightMode;
+    QString     _flowHoldFlightMode;
+    QString     _followFlightMode;
+    QString     _zigzagFlightMode;
+    QString     _systemIDFlightMode;
+    QString     _autoRotateFlightMode;
+    QString     _autoRTLFlightMode;
+    QString     _turtleFlightMode;
 
 private:
     static bool _remapParamNameIntialized;

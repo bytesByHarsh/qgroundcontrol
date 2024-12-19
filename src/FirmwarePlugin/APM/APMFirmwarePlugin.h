@@ -59,10 +59,10 @@ public:
     bool                setFlightMode                   (const QString& flightMode, uint8_t* base_mode, uint32_t* custom_mode) override;
     bool MAV_CMD_DO_SET_MODE_is_supported() const override { return true; }
     bool                isGuidedMode                    (const Vehicle* vehicle) const override;
-    QString             gotoFlightMode                  (void) const override { return QStringLiteral("Guided"); }
-    QString             rtlFlightMode                   (void) const override { return QString("RTL"); }
-    QString             smartRTLFlightMode              (void) const override { return QString("Smart RTL"); }
-    QString             missionFlightMode               (void) const override { return QString("Auto"); }
+    QString             gotoFlightMode                  (void) const override { return _guidedFlightMode; }
+    QString             rtlFlightMode                   (void) const override { return _rtlFlightMode; }
+    QString             smartRTLFlightMode              (void) const override { return _smartRtlFlightMode; }
+    QString             missionFlightMode               (void) const override { return _autoFlightMode; }
     void                pauseVehicle                    (Vehicle* vehicle) override;
     void                guidedModeRTL                   (Vehicle* vehicle, bool smartRTL) override;
     void                guidedModeChangeAltitude        (Vehicle* vehicle, double altitudeChange, bool pauseVehicle) override;
@@ -109,6 +109,12 @@ protected:
     static void _setBaroAltOffset(Vehicle* vehicle, qreal offset);
 
     bool                _coaxialMotors;
+
+
+    QString     _guidedFlightMode  ;
+    QString     _rtlFlightMode     ;
+    QString     _smartRtlFlightMode;
+    QString     _autoFlightMode    ;
 
 private slots:
     void _artooSocketError(QAbstractSocket::SocketError socketError);
