@@ -29,32 +29,15 @@ class LinkInterface;
 class FactGroup;
 
 
-class FirmwareFlightMode : public QObject
+struct FirmwareFlightMode
 {
-public:
-    FirmwareFlightMode(QString mode_name,
-                       uint32_t custom_mode,
-                       uint8_t  standard_mode,
-                       bool     cannotBeSet,
-                       bool     advanced
-                       );
-
-    uint32_t    custom_mode     () {return _custom_mode;}
-    uint8_t     standard_mode   () {return _standard_mode;}
-    bool        cannotBeSet     () {return _cannotBeSet;}
-    bool        advanced        () {return _advanced;}
-    // bool        fixedWing       () {return _fixedWing;}
-    // bool        multiRotor      () {return _multiRotor;}
-    QString     mode_name       () {return _mode_name;}
-
-private:
-    uint32_t    _custom_mode;
-    uint8_t     _standard_mode;
-    bool        _cannotBeSet;
-    bool        _advanced;
-    // bool        _fixedWing;
-    // bool        _multiRotor;
-    QString     _mode_name;
+    QString     mode_name;
+    uint8_t     standard_mode;
+    uint32_t    custom_mode;
+    bool        canBeSet;
+    bool        advanced;
+    bool        fixedWing;
+    bool        multiRotor;
 };
 
 typedef QMap<QString, FirmwareFlightMode> FlightModeMap;

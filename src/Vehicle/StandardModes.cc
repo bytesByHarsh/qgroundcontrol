@@ -80,6 +80,16 @@ void StandardModes::gotMessage(MAV_RESULT result, const mavlink_message_t &messa
 
         _nextModes[availableModes.custom_mode] = Mode{name, availableModes.standard_mode, advanced, cannotBeSet};
 
+        _modeMap[availableModes.mode_name] = FirmwareFlightMode{
+            name,
+            availableModes.standard_mode,
+            availableModes.custom_mode,
+            true,
+            false,
+            false,
+            false
+        };
+
         if (availableModes.mode_index >= availableModes.number_modes) { // We are done
             qCDebug(StandardModesLog) << "Completed, num modes:" << _nextModes.size();
             _modes = _nextModes;
@@ -87,6 +97,7 @@ void StandardModes::gotMessage(MAV_RESULT result, const mavlink_message_t &messa
             _hasModes = true;
             emit modesUpdated();
             emit requestCompleted();
+            _vehicle->firmwarePlugin()->updateAvailableFlightModes(_modeMap);
 
         } else {
             requestMode(availableModes.mode_index + 1);

@@ -188,3 +188,17 @@ bool ArduCopterFirmwarePlugin::multiRotorXConfig(Vehicle* vehicle)
 {
     return vehicle->parameterManager()->getParameter(ParameterManager::defaultComponentId, "FRAME")->rawValue().toInt() != 0;
 }
+
+void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
+{
+    _availableFlightModeMap.clear();
+    for(auto [modeStr, mode] : flightModeMap.asKeyValueRange()){
+        mode.fixedWing = false;
+        mode.multiRotor = true;
+
+        QString fMode = _modeEnumToString.value(mode.custom_mode, tr("Unknown"));
+        mode.mode_name = fMode;
+        _availableFlightModeMap[mode.mode_name] = mode;
+    }
+
+}

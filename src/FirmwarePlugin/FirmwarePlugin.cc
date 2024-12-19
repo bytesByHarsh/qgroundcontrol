@@ -27,16 +27,6 @@ QGC_LOGGING_CATEGORY(FirmwarePluginLog, "FirmwarePluginLog")
 
 const QString guided_mode_not_supported_by_vehicle = QObject::tr("Guided mode not supported by Vehicle.");
 
-FirmwareFlightMode::FirmwareFlightMode(QString mode_name, uint32_t custom_mode, uint8_t standard_mode, bool cannotBeSet, bool advanced)
-    : _custom_mode(custom_mode)
-    , _standard_mode(standard_mode)
-    , _cannotBeSet(cannotBeSet)
-    , _advanced(advanced)
-    , _mode_name(mode_name)
-{
-
-}
-
 FirmwarePlugin::FirmwarePlugin(void)
 {
     qmlRegisterType<RadioComponentController>       ("QGroundControl.Controllers",                       1, 0, "RadioComponentController");

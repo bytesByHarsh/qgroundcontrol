@@ -110,9 +110,14 @@ QStringList APMFirmwarePlugin::flightModes(Vehicle* vehicle)
 {
     Q_UNUSED(vehicle)
     QStringList flightModesList;
-    foreach (const APMCustomMode& customMode, _supportedModes) {
-        if (customMode.canBeSet()) {
-            flightModesList << customMode.modeString();
+    // foreach (const APMCustomMode& customMode, _supportedModes) {
+    //     if (customMode.canBeSet()) {
+    //         flightModesList << customMode.modeString();
+    //     }
+    // }
+    for(auto [modeStr, mode] : _availableFlightModeMap.asKeyValueRange()) {
+        if(mode.canBeSet){
+            flightModesList += modeStr;
         }
     }
     return flightModesList;
@@ -123,11 +128,12 @@ QString APMFirmwarePlugin::flightMode(uint8_t base_mode, uint32_t custom_mode) c
     QString flightMode = "Unknown";
 
     if (base_mode & MAV_MODE_FLAG_CUSTOM_MODE_ENABLED) {
-        foreach (const APMCustomMode& customMode, _supportedModes) {
-            if (customMode.modeAsInt() == custom_mode) {
-                flightMode = customMode.modeString();
-            }
-        }
+        // foreach (const APMCustomMode& customMode, _supportedModes) {
+        //     if (customMode.modeAsInt() == custom_mode) {
+        //         flightMode = customMode.modeString();
+        //     }
+        // }
+        return _modeEnumToString.value(custom_mode, flightMode);
     }
     return flightMode;
 }
@@ -139,13 +145,20 @@ bool APMFirmwarePlugin::setFlightMode(const QString& flightMode, uint8_t* base_m
 
     bool found = false;
 
-    foreach(const APMCustomMode& mode, _supportedModes) {
-        if (flightMode.compare(mode.modeString(), Qt::CaseInsensitive) == 0) {
-            *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
-            *custom_mode = mode.modeAsInt();
-            found = true;
-            break;
-        }
+    // foreach(const APMCustomMode& mode, _supportedModes) {
+    //     if (flightMode.compare(mode.modeString(), Qt::CaseInsensitive) == 0) {
+    //         *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
+    //         *custom_mode = mode.modeAsInt();
+    //         found = true;
+    //         break;
+    //     }
+    // }
+
+    auto mode = _availableFlightModeMap.value(flightMode);
+    if(mode.mode_name !=""){
+        *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
+        *custom_mode = mode.custom_mode;
+        found = true;
     }
 
     if (!found) {
