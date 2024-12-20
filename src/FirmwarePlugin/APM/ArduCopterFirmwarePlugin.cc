@@ -18,66 +18,34 @@
 bool ArduCopterFirmwarePlugin::_remapParamNameIntialized = false;
 FirmwarePlugin::remapParamNameMajorVersionMap_t ArduCopterFirmwarePlugin::_remapParamName;
 
-APMCopterMode::APMCopterMode(uint32_t mode, bool settable) :
-    APMCustomMode(mode, settable)
-{
-    setEnumToStringMapping({
-        { STABILIZE,    "Stabilize"},
-        { ACRO,         "Acro"},
-        { ALT_HOLD,     "Altitude Hold"},
-        { AUTO,         "Auto"},
-        { GUIDED,       "Guided"},
-        { LOITER,       "Loiter"},
-        { RTL,          "RTL"},
-        { CIRCLE,       "Circle"},
-        { LAND,         "Land"},
-        { DRIFT,        "Drift"},
-        { SPORT,        "Sport"},
-        { FLIP,         "Flip"},
-        { AUTOTUNE,     "Autotune"},
-        { POS_HOLD,     "Position Hold"},
-        { BRAKE,        "Brake"},
-        { THROW,        "Throw"},
-        { AVOID_ADSB,   "Avoid ADSB"},
-        { GUIDED_NOGPS, "Guided No GPS"},
-        { SMART_RTL,    "Smart RTL"},
-        { FLOWHOLD,     "Flow Hold" },
-        { FOLLOW,       "Follow" },
-        { ZIGZAG,       "ZigZag" },
-        { SYSTEMID,     "SystemID" },
-        { AUTOROTATE,   "AutoRotate" },
-        { AUTO_RTL,     "AutoRTL" },
-        { TURTLE,       "Turtle" },
-    });
-}
 
 ArduCopterFirmwarePlugin::ArduCopterFirmwarePlugin(void)
-    : _stabilizeFlightMode      ("Stabilize")
-    , _acroFlightMode           ("Acro")
-    , _altHoldFlightMode        ("Altitude Hold")
-    , _autoFlightMode           ("Auto")
-    , _guidedFlightMode         ("Guided")
-    , _loiterFlightMode         ("Loiter")
-    , _rtlFlightMode            ("RTL")
-    , _circleFlightMode         ("Circle")
-    , _landFlightMode           ("Land")
-    , _driftFlightMode          ("Drift")
-    , _sportFlightMode          ("Sport")
-    , _flipFlightMode           ("Flip")
-    , _autotuneFlightMode       ("Autotune")
-    , _posHoldFlightMode        ("Position Hold")
-    , _brakeFlightMode          ("Brake")
-    , _throwFlightMode          ("Throw")
-    , _avoidADSBFlightMode      ("Avoid ADSB")
-    , _guidedNoGPSFlightMode    ("Guided No GPS")
-    , _smartRtlFlightMode       ("Smart RTL")
-    , _flowHoldFlightMode       ("Flow Hold")
-    , _followFlightMode         ("Follow")
-    , _zigzagFlightMode         ("ZigZag")
-    , _systemIDFlightMode       ("SystemID")
-    , _autoRotateFlightMode     ("AutoRotate")
-    , _autoRTLFlightMode        ("AutoRTL")
-    , _turtleFlightMode         ("Turtle")
+    : _stabilizeFlightMode      (tr("Stabilize"))
+    , _acroFlightMode           (tr("Acro"))
+    , _altHoldFlightMode        (tr("Altitude Hold"))
+    , _autoFlightMode           (tr("Auto"))
+    , _guidedFlightMode         (tr("Guided"))
+    , _loiterFlightMode         (tr("Loiter"))
+    , _rtlFlightMode            (tr("RTL"))
+    , _circleFlightMode         (tr("Circle"))
+    , _landFlightMode           (tr("Land"))
+    , _driftFlightMode          (tr("Drift"))
+    , _sportFlightMode          (tr("Sport"))
+    , _flipFlightMode           (tr("Flip"))
+    , _autotuneFlightMode       (tr("Autotune"))
+    , _posHoldFlightMode        (tr("Position Hold"))
+    , _brakeFlightMode          (tr("Brake"))
+    , _throwFlightMode          (tr("Throw"))
+    , _avoidADSBFlightMode      (tr("Avoid ADSB"))
+    , _guidedNoGPSFlightMode    (tr("Guided No GPS"))
+    , _smartRtlFlightMode       (tr("Smart RTL"))
+    , _flowHoldFlightMode       (tr("Flow Hold"))
+    , _followFlightMode         (tr("Follow"))
+    , _zigzagFlightMode         (tr("ZigZag"))
+    , _systemIDFlightMode       (tr("SystemID"))
+    , _autoRotateFlightMode     (tr("AutoRotate"))
+    , _autoRTLFlightMode        (tr("AutoRTL"))
+    , _turtleFlightMode         (tr("Turtle"))
 {
     setModeEnumToModeStringMapping({
         { APMCopterMode::STABILIZE,    _stabilizeFlightMode     },
@@ -106,34 +74,6 @@ ArduCopterFirmwarePlugin::ArduCopterFirmwarePlugin(void)
         { APMCopterMode::AUTOROTATE,   _autoRotateFlightMode    },
         { APMCopterMode::AUTO_RTL,     _autoRTLFlightMode       },
         { APMCopterMode::TURTLE,       _turtleFlightMode        },
-    });
-    setSupportedModes({
-        APMCopterMode(APMCopterMode::STABILIZE,     true),
-        APMCopterMode(APMCopterMode::ACRO,          true),
-        APMCopterMode(APMCopterMode::ALT_HOLD,      true),
-        APMCopterMode(APMCopterMode::AUTO,          true),
-        APMCopterMode(APMCopterMode::GUIDED,        true),
-        APMCopterMode(APMCopterMode::LOITER,        true),
-        APMCopterMode(APMCopterMode::RTL,           true),
-        APMCopterMode(APMCopterMode::CIRCLE,        true),
-        APMCopterMode(APMCopterMode::LAND,          true),
-        APMCopterMode(APMCopterMode::DRIFT,         true),
-        APMCopterMode(APMCopterMode::SPORT,         true),
-        APMCopterMode(APMCopterMode::FLIP,          true),
-        APMCopterMode(APMCopterMode::AUTOTUNE,      true),
-        APMCopterMode(APMCopterMode::POS_HOLD,      true),
-        APMCopterMode(APMCopterMode::BRAKE,         true),
-        APMCopterMode(APMCopterMode::THROW,         true),
-        APMCopterMode(APMCopterMode::AVOID_ADSB,    true),
-        APMCopterMode(APMCopterMode::GUIDED_NOGPS,  true),
-        APMCopterMode(APMCopterMode::SMART_RTL,     true),
-        APMCopterMode(APMCopterMode::FLOWHOLD,      true),
-        APMCopterMode(APMCopterMode::FOLLOW,        true),
-        APMCopterMode(APMCopterMode::ZIGZAG,        true),
-        APMCopterMode(APMCopterMode::SYSTEMID,      true),
-        APMCopterMode(APMCopterMode::AUTOROTATE,    true),
-        APMCopterMode(APMCopterMode::AUTO_RTL,      true),
-        APMCopterMode(APMCopterMode::TURTLE,        true),
     });
 
     if (!_remapParamNameIntialized) {
@@ -175,7 +115,7 @@ int ArduCopterFirmwarePlugin::remapParamNameHigestMinorVersionNumber(int majorVe
 
 void ArduCopterFirmwarePlugin::guidedModeLand(Vehicle* vehicle)
 {
-    _setFlightModeAndValidate(vehicle, "Land");
+    _setFlightModeAndValidate(vehicle, landFlightMode());
 }
 
 bool ArduCopterFirmwarePlugin::multiRotorCoaxialMotors(Vehicle* vehicle)
@@ -187,6 +127,31 @@ bool ArduCopterFirmwarePlugin::multiRotorCoaxialMotors(Vehicle* vehicle)
 bool ArduCopterFirmwarePlugin::multiRotorXConfig(Vehicle* vehicle)
 {
     return vehicle->parameterManager()->getParameter(ParameterManager::defaultComponentId, "FRAME")->rawValue().toInt() != 0;
+}
+
+QString ArduCopterFirmwarePlugin::pauseFlightMode() const
+{
+    return _modeEnumToString.value(APMCopterMode::BRAKE, _brakeFlightMode);
+}
+
+QString ArduCopterFirmwarePlugin::landFlightMode() const
+{
+    return _modeEnumToString.value(APMCopterMode::LAND, _landFlightMode);
+}
+
+QString ArduCopterFirmwarePlugin::takeControlFlightMode() const
+{
+    return _modeEnumToString.value(APMCopterMode::LOITER, _loiterFlightMode);
+}
+
+QString ArduCopterFirmwarePlugin::followFlightMode() const
+{
+    return _modeEnumToString.value(APMCopterMode::FOLLOW, _followFlightMode);
+}
+
+QString ArduCopterFirmwarePlugin::gotoFlightMode() const
+{
+    return guidedFlightMode();
 }
 
 void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
@@ -201,4 +166,19 @@ void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightMo
         _availableFlightModeMap[mode.mode_name] = mode;
     }
 
+}
+
+uint32_t ArduCopterFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
+{
+    switch (val) {
+    case APMCustomMode::AUTO:
+        return APMCopterMode::AUTO;
+    case APMCustomMode::GUIDED:
+        return APMCopterMode::GUIDED;
+    case APMCustomMode::RTL:
+        return APMCopterMode::RTL;
+    case APMCustomMode::SMART_RTL:
+        return APMCopterMode::SMART_RTL;
+    }
+    return UINT32_MAX;
 }

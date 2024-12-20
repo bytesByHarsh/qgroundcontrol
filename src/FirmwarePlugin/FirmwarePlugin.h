@@ -41,7 +41,7 @@ struct FirmwareFlightMode
 };
 
 typedef QMap<QString, FirmwareFlightMode> FlightModeMap;
-
+typedef QMap<uint32_t,QString>            FlightModeCustomModeMap;
 /// This is the base class for Firmware specific plugins
 ///
 /// The FirmwarePlugin class represents the methods and objects which are specific to a certain Firmware flight stack.
@@ -373,7 +373,7 @@ public:
 
 
     virtual void updateAvailableFlightModes(FlightModeMap flightModeMap);
-    void setModeEnumToModeStringMapping(const QMap<uint32_t, QString>& enumToString);
+    void setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString);
 
 signals:
     void toolIndicatorsChanged(void);
@@ -397,8 +397,10 @@ protected:
     // Returns regex QString to extract version information from text
     virtual QString _versionRegex() { return QString(); }
 
-    FlightModeMap           _availableFlightModeMap;
-    QMap<uint32_t,QString>  _modeEnumToString;
+    virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
+
+    FlightModeMap               _availableFlightModeMap;
+    FlightModeCustomModeMap     _modeEnumToString;
 
 protected:
     QVariantList _toolIndicatorList;

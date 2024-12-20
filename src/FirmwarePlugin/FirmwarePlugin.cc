@@ -573,7 +573,7 @@ void FirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
     _availableFlightModeMap = flightModeMap;
 }
 
-void FirmwarePlugin::setModeEnumToModeStringMapping(const QMap<uint32_t, QString> &enumToString)
+void FirmwarePlugin::setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString)
 {
     _modeEnumToString = enumToString;
 }

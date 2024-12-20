@@ -13,64 +13,57 @@
 bool ArduPlaneFirmwarePlugin::_remapParamNameIntialized = false;
 FirmwarePlugin::remapParamNameMajorVersionMap_t ArduPlaneFirmwarePlugin::_remapParamName;
 
-APMPlaneMode::APMPlaneMode(uint32_t mode, bool settable)
-    : APMCustomMode(mode, settable)
-{
-    setEnumToStringMapping({ 
-        { MANUAL,           "Manual" },
-        { CIRCLE,           "Circle" },
-        { STABILIZE,        "Stabilize" },
-        { TRAINING,         "Training" },
-        { ACRO,             "Acro" },
-        { FLY_BY_WIRE_A,    "FBW A" },
-        { FLY_BY_WIRE_B,    "FBW B" },
-        { CRUISE,           "Cruise" },
-        { AUTOTUNE,         "Autotune" },
-        { AUTO,             "Auto" },
-        { RTL,              "RTL" },
-        { LOITER,           "Loiter" },
-        { TAKEOFF,          "Takeoff" },
-        { AVOID_ADSB,       "Avoid ADSB" },
-        { GUIDED,           "Guided" },
-        { INITIALIZING,     "Initializing" },
-        { QSTABILIZE,       "QuadPlane Stabilize" },
-        { QHOVER,           "QuadPlane Hover" },
-        { QLOITER,          "QuadPlane Loiter" },
-        { QLAND,            "QuadPlane Land" },
-        { QRTL,             "QuadPlane RTL" },
-        { QAUTOTUNE,        "QuadPlane AutoTune" },
-        { QACRO,            "QuadPlane Acro" },
-        { THERMAL,          "Thermal"},
-    });
-}
-
 ArduPlaneFirmwarePlugin::ArduPlaneFirmwarePlugin(void)
+    : _manualFlightMode      (tr("Manual"))
+    , _circleFlightMode      (tr("Circle"))
+    , _stabilizeFlightMode   (tr("Stabilize"))
+    , _trainingFlightMode    (tr("Training"))
+    , _acroFlightMode        (tr("Acro"))
+    , _flyByWireAFlightMode  (tr("FBW A"))
+    , _flyByWireBFlightMode  (tr("FBW B"))
+    , _cruiseFlightMode      (tr("Cruise"))
+    , _autoTuneFlightMode    (tr("Autotune"))
+    , _autoFlightMode        (tr("Auto"))
+    , _rtlFlightMode         (tr("RTL"))
+    , _loiterFlightMode      (tr("Loiter"))
+    , _takeoffFlightMode     (tr("Takeoff"))
+    , _avoidADSBFlightMode   (tr("Avoid ADSB"))
+    , _guidedFlightMode      (tr("Guided"))
+    , _initializingFlightMode(tr("Initializing"))
+    , _qStabilizeFlightMode  (tr("QuadPlane Stabilize"))
+    , _qHoverFlightMode      (tr("QuadPlane Hover"))
+    , _qLoiterFlightMode     (tr("QuadPlane Loiter"))
+    , _qLandFlightMode       (tr("QuadPlane Land"))
+    , _qRTLFlightMode        (tr("QuadPlane RTL"))
+    , _qAutotuneFlightMode   (tr("QuadPlane AutoTune"))
+    , _qAcroFlightMode       (tr("QuadPlane Acro"))
+    , _thermalFlightMode     (tr("Thermal"))
 {
-    setSupportedModes({
-        APMPlaneMode(APMPlaneMode::MANUAL,          true),
-        APMPlaneMode(APMPlaneMode::CIRCLE,          true),
-        APMPlaneMode(APMPlaneMode::STABILIZE,       true),
-        APMPlaneMode(APMPlaneMode::TRAINING,        true),
-        APMPlaneMode(APMPlaneMode::ACRO,            true),
-        APMPlaneMode(APMPlaneMode::FLY_BY_WIRE_A,   true),
-        APMPlaneMode(APMPlaneMode::FLY_BY_WIRE_B,   true),
-        APMPlaneMode(APMPlaneMode::CRUISE,          true),
-        APMPlaneMode(APMPlaneMode::AUTOTUNE,        true),
-        APMPlaneMode(APMPlaneMode::AUTO,            true),
-        APMPlaneMode(APMPlaneMode::RTL,             true),
-        APMPlaneMode(APMPlaneMode::LOITER,          true),
-        APMPlaneMode(APMPlaneMode::TAKEOFF,         true),
-        APMPlaneMode(APMPlaneMode::AVOID_ADSB,      false),
-        APMPlaneMode(APMPlaneMode::GUIDED,          true),
-        APMPlaneMode(APMPlaneMode::INITIALIZING,    false),
-        APMPlaneMode(APMPlaneMode::QSTABILIZE,      true),
-        APMPlaneMode(APMPlaneMode::QHOVER,          true),
-        APMPlaneMode(APMPlaneMode::QLOITER,         true),
-        APMPlaneMode(APMPlaneMode::QLAND,           true),
-        APMPlaneMode(APMPlaneMode::QRTL,            true),
-        APMPlaneMode(APMPlaneMode::QAUTOTUNE,       true),
-        APMPlaneMode(APMPlaneMode::QACRO,           true),
-        APMPlaneMode(APMPlaneMode::THERMAL,         true),
+    setModeEnumToModeStringMapping({
+        {APMPlaneMode::MANUAL        , _manualFlightMode      },
+        {APMPlaneMode::CIRCLE        , _circleFlightMode      },
+        {APMPlaneMode::STABILIZE     , _stabilizeFlightMode   },
+        {APMPlaneMode::TRAINING      , _trainingFlightMode    },
+        {APMPlaneMode::ACRO          , _acroFlightMode        },
+        {APMPlaneMode::FLY_BY_WIRE_A , _flyByWireAFlightMode  },
+        {APMPlaneMode::FLY_BY_WIRE_B , _flyByWireBFlightMode  },
+        {APMPlaneMode::CRUISE        , _cruiseFlightMode      },
+        {APMPlaneMode::AUTOTUNE      , _autoTuneFlightMode    },
+        {APMPlaneMode::AUTO          , _autoFlightMode        },
+        {APMPlaneMode::RTL           , _rtlFlightMode         },
+        {APMPlaneMode::LOITER        , _loiterFlightMode      },
+        {APMPlaneMode::TAKEOFF       , _takeoffFlightMode     },
+        {APMPlaneMode::AVOID_ADSB    , _avoidADSBFlightMode   },
+        {APMPlaneMode::GUIDED        , _guidedFlightMode      },
+        {APMPlaneMode::INITIALIZING  , _initializingFlightMode},
+        {APMPlaneMode::QSTABILIZE    , _qStabilizeFlightMode  },
+        {APMPlaneMode::QHOVER        , _qHoverFlightMode      },
+        {APMPlaneMode::QLOITER       , _qLoiterFlightMode     },
+        {APMPlaneMode::QLAND         , _qLandFlightMode       },
+        {APMPlaneMode::QRTL          , _qRTLFlightMode        },
+        {APMPlaneMode::QAUTOTUNE     , _qAutotuneFlightMode   },
+        {APMPlaneMode::QACRO         , _qAcroFlightMode       },
+        {APMPlaneMode::THERMAL       , _thermalFlightMode     },
     });
 
     if (!_remapParamNameIntialized) {
@@ -87,4 +80,19 @@ int ArduPlaneFirmwarePlugin::remapParamNameHigestMinorVersionNumber(int majorVer
 {
     // Remapping supports up to 3.10
     return majorVersionNumber == 3 ? 10 : Vehicle::versionNotSetValue;
+}
+
+uint32_t ArduPlaneFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
+{
+    switch (val) {
+    case APMCustomMode::AUTO:
+        return APMPlaneMode::AUTO;
+    case APMCustomMode::GUIDED:
+        return APMPlaneMode::GUIDED;
+    case APMCustomMode::RTL:
+        return APMPlaneMode::RTL;
+    case APMCustomMode::SMART_RTL:
+        return APMPlaneMode::RTL;
+    }
+    return UINT32_MAX;
 }

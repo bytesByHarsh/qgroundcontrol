@@ -15,10 +15,9 @@
 
 #include "APMFirmwarePlugin.h"
 
-class APMCopterMode : public APMCustomMode
+struct APMCopterMode
 {
-public:
-    enum Mode {
+    enum Mode : uint32_t{
         STABILIZE   = 0,   // hold level position
         ACRO        = 1,   // rate control
         ALT_HOLD    = 2,   // AUTO control
@@ -49,8 +48,6 @@ public:
         AUTO_RTL    = 27,
         TURTLE      = 28,
     };
-
-    APMCopterMode(uint32_t mode, bool settable);
 };
 
 class ArduCopterFirmwarePlugin : public APMFirmwarePlugin
@@ -67,15 +64,19 @@ public:
     bool    multiRotorCoaxialMotors             (Vehicle* vehicle) final;
     bool    multiRotorXConfig                   (Vehicle* vehicle) final;
     QString offlineEditingParamFile             (Vehicle* vehicle) final { Q_UNUSED(vehicle); return QStringLiteral(":/FirmwarePlugin/APM/Copter.OfflineEditing.params"); }
-    QString pauseFlightMode                     (void) const override { return _brakeFlightMode; }
-    QString landFlightMode                      (void) const override { return _landFlightMode; }
-    QString takeControlFlightMode               (void) const override { return _loiterFlightMode; }
-    QString followFlightMode                    (void) const override { return _followFlightMode; }
+    QString pauseFlightMode                     (void) const override;
+    QString landFlightMode                      (void) const override;
+    QString takeControlFlightMode               (void) const override;
+    QString followFlightMode                    (void) const override;
+    QString gotoFlightMode                      (void) const override;
     QString autoDisarmParameter                 (Vehicle* vehicle) override { Q_UNUSED(vehicle); return QStringLiteral("DISARM_DELAY"); }
     bool    supportsSmartRTL                    (void) const override { return true; }
 
     void    updateAvailableFlightModes          (FlightModeMap flightModeMap) final;
 protected:
+    uint32_t    _convertToCustomFlightModeEnum(uint32_t val) const override;
+
+
     QString     _stabilizeFlightMode;
     QString     _acroFlightMode;
     QString     _altHoldFlightMode;

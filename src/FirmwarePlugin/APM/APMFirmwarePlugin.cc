@@ -41,28 +41,6 @@
 
 QGC_LOGGING_CATEGORY(APMFirmwarePluginLog, "APMFirmwarePluginLog")
 
-/*
- * @brief APMCustomMode encapsulates the custom modes for APM
- */
-APMCustomMode::APMCustomMode(uint32_t mode, bool settable) :
-    _mode(mode),
-    _settable(settable)
-{
-}
-
-void APMCustomMode::setEnumToStringMapping(const QMap<uint32_t, QString>& enumToString)
-{
-    _enumToString = enumToString;
-}
-
-QString APMCustomMode::modeString() const
-{
-    QString mode = _enumToString.value(modeAsInt());
-    if (mode.isEmpty()) {
-        mode = "mode" + QString::number(modeAsInt());
-    }
-    return mode;
-}
 
 APMFirmwarePlugin::APMFirmwarePlugin(void)
     : _coaxialMotors(false)
@@ -71,6 +49,13 @@ APMFirmwarePlugin::APMFirmwarePlugin(void)
     , _smartRtlFlightMode   (tr("Smart RTL"))
     , _autoFlightMode       (tr("Auto"))
 {
+    setModeEnumToModeStringMapping({
+        { APMCustomMode::GUIDED,        _guidedFlightMode   },
+        { APMCustomMode::RTL,           _rtlFlightMode      },
+        { APMCustomMode::SMART_RTL,     _smartRtlFlightMode },
+        { APMCustomMode::AUTO,          _autoFlightMode     },
+    });
+
     qmlRegisterType<APMFlightModesComponentController>  ("QGroundControl.Controllers", 1, 0, "APMFlightModesComponentController");
     qmlRegisterType<APMAirframeComponentController>     ("QGroundControl.Controllers", 1, 0, "APMAirframeComponentController");
     qmlRegisterType<APMSensorsComponentController>      ("QGroundControl.Controllers", 1, 0, "APMSensorsComponentController");
@@ -128,11 +113,6 @@ QString APMFirmwarePlugin::flightMode(uint8_t base_mode, uint32_t custom_mode) c
     QString flightMode = "Unknown";
 
     if (base_mode & MAV_MODE_FLAG_CUSTOM_MODE_ENABLED) {
-        // foreach (const APMCustomMode& customMode, _supportedModes) {
-        //     if (customMode.modeAsInt() == custom_mode) {
-        //         flightMode = customMode.modeString();
-        //     }
-        // }
         return _modeEnumToString.value(custom_mode, flightMode);
     }
     return flightMode;
@@ -144,15 +124,6 @@ bool APMFirmwarePlugin::setFlightMode(const QString& flightMode, uint8_t* base_m
     *custom_mode = 0;
 
     bool found = false;
-
-    // foreach(const APMCustomMode& mode, _supportedModes) {
-    //     if (flightMode.compare(mode.modeString(), Qt::CaseInsensitive) == 0) {
-    //         *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
-    //         *custom_mode = mode.modeAsInt();
-    //         found = true;
-    //         break;
-    //     }
-    // }
 
     auto mode = _availableFlightModeMap.value(flightMode);
     if(mode.mode_name !=""){
@@ -687,7 +658,32 @@ const QVariantList& APMFirmwarePlugin::toolIndicators(const Vehicle* vehicle)
 
 bool APMFirmwarePlugin::isGuidedMode(const Vehicle* vehicle) const
 {
-    return vehicle->flightMode() == _guidedFlightMode;
+    return vehicle->flightMode() == guidedFlightMode();
+}
+
+QString APMFirmwarePlugin::gotoFlightMode() const
+{
+    return guidedFlightMode();
+}
+
+QString APMFirmwarePlugin::rtlFlightMode() const
+{
+    return _modeEnumToString.value(_convertToCustomFlightModeEnum(APMCustomMode::RTL), _rtlFlightMode);
+}
+
+QString APMFirmwarePlugin::smartRTLFlightMode() const
+{
+    return _modeEnumToString.value(_convertToCustomFlightModeEnum(APMCustomMode::SMART_RTL), _smartRtlFlightMode);
+}
+
+QString APMFirmwarePlugin::missionFlightMode() const
+{
+    return _modeEnumToString.value(_convertToCustomFlightModeEnum(APMCustomMode::AUTO), _autoFlightMode);
+}
+
+QString APMFirmwarePlugin::guidedFlightMode() const
+{
+    return _modeEnumToString.value(_convertToCustomFlightModeEnum(APMCustomMode::GUIDED), _guidedFlightMode);
 }
 
 void APMFirmwarePlugin::_soloVideoHandshake(void)
@@ -768,7 +764,7 @@ QString APMFirmwarePlugin::_internalParameterMetaDataFile(const Vehicle* vehicle
 void APMFirmwarePlugin::setGuidedMode(Vehicle* vehicle, bool guidedMode)
 {
     if (guidedMode) {
-        _setFlightModeAndValidate(vehicle, _guidedFlightMode);
+        _setFlightModeAndValidate(vehicle, guidedFlightMode());
     } else {
         pauseVehicle(vehicle);
     }
@@ -1010,7 +1006,7 @@ bool APMFirmwarePlugin::_guidedModeTakeoff(Vehicle* vehicle, double altitudeRel)
         takeoffAltRel = altitudeRel;
     }
 
-    if (!_setFlightModeAndValidate(vehicle, _guidedFlightMode)) {
+    if (!_setFlightModeAndValidate(vehicle, guidedFlightMode())) {
         qgcApp()->showAppMessage(tr("Unable to takeoff: Vehicle failed to change to Guided mode."));
         return false;
     }
@@ -1049,7 +1045,7 @@ void APMFirmwarePlugin::startMission(Vehicle* vehicle)
                 return;
             }
         } else {
-            if (!_setFlightModeAndValidate(vehicle, _guidedFlightMode)) {
+            if (!_setFlightModeAndValidate(vehicle, guidedFlightMode())) {
                 qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Guided mode."));
                 return;
             }
