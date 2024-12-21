@@ -95,13 +95,9 @@ QStringList APMFirmwarePlugin::flightModes(Vehicle* vehicle)
 {
     Q_UNUSED(vehicle)
     QStringList flightModesList;
-    // foreach (const APMCustomMode& customMode, _supportedModes) {
-    //     if (customMode.canBeSet()) {
-    //         flightModesList << customMode.modeString();
-    //     }
-    // }
-    for(auto [modeStr, mode] : _availableFlightModeMap.asKeyValueRange()) {
-        if(mode.canBeSet){
+    for (auto [modeEnum, modeStr] : _modeEnumToString.asKeyValueRange()) {
+        auto mode = _availableFlightModeMap.value(modeStr);
+        if (mode.canBeSet){
             flightModesList += modeStr;
         }
     }
@@ -1029,7 +1025,7 @@ void APMFirmwarePlugin::startMission(Vehicle* vehicle)
 {
     if (vehicle->flying()) {
         // Vehicle already in the air, we just need to switch to auto
-        if (!_setFlightModeAndValidate(vehicle, _autoFlightMode)) {
+        if (!_setFlightModeAndValidate(vehicle, missionFlightMode())) {
             qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Auto mode."));
         }
         return;
@@ -1040,7 +1036,7 @@ void APMFirmwarePlugin::startMission(Vehicle* vehicle)
         // In Ardupilot for vtols and airplanes we need to set the mode to auto and then arm, otherwise if arming in guided
         // If the vehicle has tilt rotors, it will arm them in forward flight position, being dangerous.
         if (vehicle->fixedWing()) {
-            if (!_setFlightModeAndValidate(vehicle, _autoFlightMode)) {
+            if (!_setFlightModeAndValidate(vehicle, missionFlightMode())) {
                 qgcApp()->showAppMessage(tr("Unable to start mission: Vehicle failed to change to Auto mode."));
                 return;
             }

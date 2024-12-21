@@ -568,12 +568,30 @@ Autotune* FirmwarePlugin::createAutotune(Vehicle *vehicle)
     return new Autotune(vehicle);
 }
 
-void FirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
+void FirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeMap = flightModeMap;
+    _availableFlightModeMap.clear();
+
+    foreach(auto mode, modeList){
+        _updateModeMappings(mode);
+    }
 }
 
 void FirmwarePlugin::setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString)
 {
     _modeEnumToString = enumToString;
+}
+
+void FirmwarePlugin::_updateModeMappings(FirmwareFlightMode &mode){
+    // Get Presaved Mode String, if mode is not present then take Custom Mode Name
+
+    QString nModeName = mode.mode_name;
+    if(_modeEnumToString.contains(mode.custom_mode)){
+        nModeName = _modeEnumToString[mode.custom_mode];
+    }
+    else{
+        // Mode Is New for QGC
+        _modeEnumToString[mode.custom_mode] = nModeName;
+    }
+    _availableFlightModeMap[nModeName] = mode;
 }

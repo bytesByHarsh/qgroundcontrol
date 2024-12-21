@@ -68,6 +68,6 @@ private:
     int _lastSeq{-1};
 
     QMap<uint32_t, Mode> _modes; ///< key is custom_mode
-    FlightModeMap _modeMap;
+    FlightModeList       _modeList;
 };
 

@@ -31,16 +31,17 @@ class FactGroup;
 
 struct FirmwareFlightMode
 {
-    QString     mode_name;
-    uint8_t     standard_mode;
-    uint32_t    custom_mode;
-    bool        canBeSet;
-    bool        advanced;
-    bool        fixedWing;
-    bool        multiRotor;
+    QString     mode_name       = "Unknown";
+    uint8_t     standard_mode   = UINT8_MAX;
+    uint32_t    custom_mode     = UINT32_MAX;
+    bool        canBeSet        = false;
+    bool        advanced        = false;
+    bool        fixedWing       = false;
+    bool        multiRotor      = true;
 };
 
 typedef QMap<QString, FirmwareFlightMode> FlightModeMap;
+typedef QList<FirmwareFlightMode>         FlightModeList;
 typedef QMap<uint32_t,QString>            FlightModeCustomModeMap;
 /// This is the base class for Firmware specific plugins
 ///
@@ -371,8 +372,10 @@ public:
     /// Creates Autotune object.
     virtual Autotune* createAutotune(Vehicle *vehicle);
 
+    /// Update Available flight modes recieved from vehicle
+    virtual void updateAvailableFlightModes(FlightModeList modeList);
 
-    virtual void updateAvailableFlightModes(FlightModeMap flightModeMap);
+    /// Set Custom Mode mapping to Flight Mode String
     void setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString);
 
 signals:
@@ -397,7 +400,9 @@ protected:
     // Returns regex QString to extract version information from text
     virtual QString _versionRegex() { return QString(); }
 
+
     virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
+    void             _updateModeMappings(FirmwareFlightMode &mode);
 
     FlightModeMap               _availableFlightModeMap;
     FlightModeCustomModeMap     _modeEnumToString;

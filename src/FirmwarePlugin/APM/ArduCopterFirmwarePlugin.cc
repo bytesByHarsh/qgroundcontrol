@@ -154,16 +154,13 @@ QString ArduCopterFirmwarePlugin::gotoFlightMode() const
     return guidedFlightMode();
 }
 
-void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeMap flightModeMap)
+void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
     _availableFlightModeMap.clear();
-    for(auto [modeStr, mode] : flightModeMap.asKeyValueRange()){
+    foreach(auto mode, modeList){
         mode.fixedWing = false;
         mode.multiRotor = true;
-
-        QString fMode = _modeEnumToString.value(mode.custom_mode, tr("Unknown"));
-        mode.mode_name = fMode;
-        _availableFlightModeMap[mode.mode_name] = mode;
+        _updateModeMappings(mode);
     }
 
 }
