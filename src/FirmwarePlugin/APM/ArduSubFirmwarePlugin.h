@@ -152,6 +152,8 @@ public:
     virtual QMap<QString, FactGroup*>* factGroups(void) final;
     void adjustMetaData(MAV_TYPE vehicleType, FactMetaData* metaData) override final;
 
+    void updateAvailableFlightModes(FlightModeList modeList) final;
+
 protected:
     uint32_t    _convertToCustomFlightModeEnum(uint32_t val) const override;
 

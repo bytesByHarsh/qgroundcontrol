@@ -572,7 +572,7 @@ void FirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
     _availableFlightModeMap.clear();
 
-    foreach(auto mode, modeList){
+    for(auto mode: modeList){
         _updateModeMappings(mode);
     }
 }

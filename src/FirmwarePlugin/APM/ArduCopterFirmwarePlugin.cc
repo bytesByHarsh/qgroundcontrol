@@ -157,7 +157,7 @@ QString ArduCopterFirmwarePlugin::gotoFlightMode() const
 void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
     _availableFlightModeMap.clear();
-    foreach(auto mode, modeList){
+    for(auto mode: modeList){
         mode.fixedWing = false;
         mode.multiRotor = true;
         _updateModeMappings(mode);

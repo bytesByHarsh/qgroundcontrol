@@ -60,6 +60,8 @@ public:
     int     remapParamNameHigestMinorVersionNumber  (int majorVersionNumber) const final;    
     const FirmwarePlugin::remapParamNameMajorVersionMap_t& paramNameRemapMajorVersionMap(void) const final { return _remapParamName; }
 
+    void    updateAvailableFlightModes              (FlightModeList modeList) final;
+
 protected:
     uint32_t    _convertToCustomFlightModeEnum(uint32_t val) const override;
 

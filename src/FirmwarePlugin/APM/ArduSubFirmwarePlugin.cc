@@ -339,6 +339,16 @@ void ArduSubFirmwarePlugin::adjustMetaData(MAV_TYPE vehicleType, FactMetaData* m
     }
 }
 
+void ArduSubFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
+{
+    _availableFlightModeMap.clear();
+    for(auto mode: modeList){
+        mode.fixedWing = false;
+        mode.multiRotor = true;
+        _updateModeMappings(mode);
+    }
+}
+
 uint32_t ArduSubFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
 {
     switch (val) {

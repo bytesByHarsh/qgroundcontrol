@@ -82,6 +82,16 @@ int ArduPlaneFirmwarePlugin::remapParamNameHigestMinorVersionNumber(int majorVer
     return majorVersionNumber == 3 ? 10 : Vehicle::versionNotSetValue;
 }
 
+void ArduPlaneFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
+{
+    _availableFlightModeMap.clear();
+    for(auto mode: modeList){
+        mode.fixedWing = true;
+        mode.multiRotor = true;
+        _updateModeMappings(mode);
+    }
+}
+
 uint32_t ArduPlaneFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
 {
     switch (val) {

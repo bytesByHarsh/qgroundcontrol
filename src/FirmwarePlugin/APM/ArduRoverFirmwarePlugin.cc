@@ -75,6 +75,16 @@ bool ArduRoverFirmwarePlugin::supportsNegativeThrust(Vehicle* /*vehicle*/)
     return true;
 }
 
+void ArduRoverFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
+{
+    _availableFlightModeMap.clear();
+    for(auto mode: modeList){
+        mode.fixedWing = false;
+        mode.multiRotor = true;
+        _updateModeMappings(mode);
+    }
+}
+
 uint32_t ArduRoverFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
 {
     switch (val) {
