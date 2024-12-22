@@ -39,7 +39,7 @@ ArduPlaneFirmwarePlugin::ArduPlaneFirmwarePlugin(void)
     , _qAcroFlightMode       (tr("QuadPlane Acro"))
     , _thermalFlightMode     (tr("Thermal"))
 {
-    setModeEnumToModeStringMapping({
+    _setModeEnumToModeStringMapping({
         {APMPlaneMode::MANUAL        , _manualFlightMode      },
         {APMPlaneMode::CIRCLE        , _circleFlightMode      },
         {APMPlaneMode::STABILIZE     , _stabilizeFlightMode   },

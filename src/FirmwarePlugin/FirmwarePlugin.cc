@@ -577,7 +577,7 @@ void FirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
     }
 }
 
-void FirmwarePlugin::setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString)
+void FirmwarePlugin::_setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString)
 {
     _modeEnumToString = enumToString;
 }

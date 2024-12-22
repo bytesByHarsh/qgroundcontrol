@@ -40,7 +40,6 @@ struct FirmwareFlightMode
     bool        multiRotor      = true;
 };
 
-typedef QMap<QString, FirmwareFlightMode> FlightModeMap;
 typedef QList<FirmwareFlightMode>         FlightModeList;
 typedef QMap<uint32_t,QString>            FlightModeCustomModeMap;
 /// This is the base class for Firmware specific plugins
@@ -375,9 +374,6 @@ public:
     /// Update Available flight modes recieved from vehicle
     virtual void updateAvailableFlightModes(FlightModeList modeList);
 
-    /// Set Custom Mode mapping to Flight Mode String
-    void setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString);
-
 signals:
     void toolIndicatorsChanged(void);
     void modeIndicatorsChanged(void);
@@ -400,8 +396,13 @@ protected:
     // Returns regex QString to extract version information from text
     virtual QString _versionRegex() { return QString(); }
 
+    // Set Custom Mode mapping to Flight Mode String
+    void             _setModeEnumToModeStringMapping(FlightModeCustomModeMap enumToString);
 
+    // Convert Base enum to Derived class Enums
     virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
+
+    // Update internal mappings for a specific mode
     void             _updateModeMappings(FirmwareFlightMode &mode);
 
     FlightModeList              _availableFlightModeList;

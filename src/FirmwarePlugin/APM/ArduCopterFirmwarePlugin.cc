@@ -47,7 +47,7 @@ ArduCopterFirmwarePlugin::ArduCopterFirmwarePlugin(void)
     , _autoRTLFlightMode        (tr("AutoRTL"))
     , _turtleFlightMode         (tr("Turtle"))
 {
-    setModeEnumToModeStringMapping({
+    _setModeEnumToModeStringMapping({
         { APMCopterMode::STABILIZE,    _stabilizeFlightMode     },
         { APMCopterMode::ACRO,         _acroFlightMode          },
         { APMCopterMode::ALT_HOLD,     _altHoldFlightMode       },

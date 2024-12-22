@@ -31,7 +31,7 @@ ArduRoverFirmwarePlugin::ArduRoverFirmwarePlugin(void)
     , _guidedFlightMode         (tr("Guided"))
     , _initializingFlightMode   (tr("Initializing"))
 {
-    setModeEnumToModeStringMapping({
+    _setModeEnumToModeStringMapping({
         {APMRoverMode::MANUAL       , _manualFlightMode      },
         {APMRoverMode::ACRO         , _acroFlightMode        },
         {APMRoverMode::LEARNING     , _learningFlightMode    },

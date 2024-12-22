@@ -53,7 +53,7 @@ ArduSubFirmwarePlugin::ArduSubFirmwarePlugin(void)
     , _motorDetectionFlightMode (tr("Motor Detection"))
     , _surftrakFlightMode       (tr("Surftrak"))
 {
-    setModeEnumToModeStringMapping({
+    _setModeEnumToModeStringMapping({
         { APMSubMode::MANUAL            , _manualFlightMode        },
         { APMSubMode::STABILIZE         , _stabilizeFlightMode     },
         { APMSubMode::ACRO              , _acroFlightMode          },

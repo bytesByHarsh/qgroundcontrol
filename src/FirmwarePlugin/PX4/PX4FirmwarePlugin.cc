@@ -56,7 +56,7 @@ PX4FirmwarePlugin::PX4FirmwarePlugin()
     qmlRegisterType<SensorsComponentController>         ("QGroundControl.Controllers", 1, 0, "SensorsComponentController");
     qmlRegisterType<PowerComponentController>           ("QGroundControl.Controllers", 1, 0, "PowerComponentController");
 
-    setModeEnumToModeStringMapping({
+    _setModeEnumToModeStringMapping({
         { PX4CustomMode::MANUAL             ,    _manualFlightMode      },
         { PX4CustomMode::STABILIZED         ,    _stabilizedFlightMode  },
         { PX4CustomMode::ACRO               ,    _acroFlightMode        },
