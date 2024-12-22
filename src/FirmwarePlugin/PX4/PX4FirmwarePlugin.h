@@ -76,7 +76,7 @@ public:
     QVariant            mainStatusIndicatorContentItem  (const Vehicle* vehicle) const override;
     const QVariantList& toolIndicators                  (const Vehicle* vehicle) override;
 
-    void                updateAvailableFlightModes      (FlightModeList modeList) final;
+    void                updateAvailableFlightModes      (FlightModeList modeList) override;
 
 protected:
 
