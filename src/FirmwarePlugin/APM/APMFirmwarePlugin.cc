@@ -95,10 +95,9 @@ QStringList APMFirmwarePlugin::flightModes(Vehicle* vehicle)
 {
     Q_UNUSED(vehicle)
     QStringList flightModesList;
-    for (auto [modeEnum, modeStr] : _modeEnumToString.asKeyValueRange()) {
-        auto mode = _availableFlightModeMap.value(modeStr);
+    for (auto mode : _availableFlightModeList) {
         if (mode.canBeSet){
-            flightModesList += modeStr;
+            flightModesList += mode.mode_name;
         }
     }
     return flightModesList;
@@ -121,11 +120,13 @@ bool APMFirmwarePlugin::setFlightMode(const QString& flightMode, uint8_t* base_m
 
     bool found = false;
 
-    auto mode = _availableFlightModeMap.value(flightMode);
-    if(mode.mode_name !=""){
-        *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
-        *custom_mode = mode.custom_mode;
-        found = true;
+    for (auto &mode: _availableFlightModeList){
+        if(flightMode.compare(mode.mode_name, Qt::CaseInsensitive) == 0){
+            *base_mode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
+            *custom_mode = mode.custom_mode;
+            found = true;
+            break;
+        }
     }
 
     if (!found) {

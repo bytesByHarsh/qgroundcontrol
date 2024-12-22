@@ -66,6 +66,34 @@ ArduPlaneFirmwarePlugin::ArduPlaneFirmwarePlugin(void)
         {APMPlaneMode::THERMAL       , _thermalFlightMode     },
     });
 
+    updateAvailableFlightModes({
+        // Mode Name             ,  SM, Custom Mode                CanBeSet  adv    FW      MR
+        { _manualFlightMode       , 0 , APMPlaneMode::MANUAL        , true , true , true , true},
+        { _circleFlightMode       , 0 , APMPlaneMode::CIRCLE        , true , true , true , true},
+        { _stabilizeFlightMode    , 0 , APMPlaneMode::STABILIZE     , true , true , true , true},
+        { _trainingFlightMode     , 0 , APMPlaneMode::TRAINING      , true , true , true , true},
+        { _acroFlightMode         , 0 , APMPlaneMode::ACRO          , true , true , true , true},
+        { _flyByWireAFlightMode   , 0 , APMPlaneMode::FLY_BY_WIRE_A , true , true , true , true},
+        { _flyByWireBFlightMode   , 0 , APMPlaneMode::FLY_BY_WIRE_B , true , true , true , true},
+        { _cruiseFlightMode       , 0 , APMPlaneMode::CRUISE        , true , true , true , true},
+        { _autoTuneFlightMode     , 0 , APMPlaneMode::AUTOTUNE      , true , true , true , true},
+        { _autoFlightMode         , 0 , APMPlaneMode::AUTO          , true , true , true , true},
+        { _rtlFlightMode          , 0 , APMPlaneMode::RTL           , true , true , true , true},
+        { _loiterFlightMode       , 0 , APMPlaneMode::LOITER        , true , true , true , true},
+        { _takeoffFlightMode      , 0 , APMPlaneMode::TAKEOFF       , true , true , true , true},
+        { _avoidADSBFlightMode    , 0 , APMPlaneMode::AVOID_ADSB    , true , true , true , true},
+        { _guidedFlightMode       , 0 , APMPlaneMode::GUIDED        , true , true , true , true},
+        { _initializingFlightMode , 0 , APMPlaneMode::INITIALIZING  , true , true , true , true},
+        { _qStabilizeFlightMode   , 0 , APMPlaneMode::QSTABILIZE    , true , true , true , true},
+        { _qHoverFlightMode       , 0 , APMPlaneMode::QHOVER        , true , true , true , true},
+        { _qLoiterFlightMode      , 0 , APMPlaneMode::QLOITER       , true , true , true , true},
+        { _qLandFlightMode        , 0 , APMPlaneMode::QLAND         , true , true , true , true},
+        { _qRTLFlightMode         , 0 , APMPlaneMode::QRTL          , true , true , true , true},
+        { _qAutotuneFlightMode    , 0 , APMPlaneMode::QAUTOTUNE     , true , true , true , true},
+        { _qAcroFlightMode        , 0 , APMPlaneMode::QACRO         , true , true , true , true},
+        { _thermalFlightMode      , 0 , APMPlaneMode::THERMAL       , true , true , true , true},
+    });
+
     if (!_remapParamNameIntialized) {
         FirmwarePlugin::remapParamNameMap_t& remapV3_10 = _remapParamName[3][10];
 
@@ -84,7 +112,7 @@ int ArduPlaneFirmwarePlugin::remapParamNameHigestMinorVersionNumber(int majorVer
 
 void ArduPlaneFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeMap.clear();
+    _availableFlightModeList.clear();
     for(auto mode: modeList){
         mode.fixedWing = true;
         mode.multiRotor = true;

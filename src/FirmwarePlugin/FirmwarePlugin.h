@@ -404,7 +404,7 @@ protected:
     virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
     void             _updateModeMappings(FirmwareFlightMode &mode);
 
-    FlightModeMap               _availableFlightModeMap;
+    FlightModeList              _availableFlightModeList;
     FlightModeCustomModeMap     _modeEnumToString;
 
 protected:

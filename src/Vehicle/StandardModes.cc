@@ -84,8 +84,8 @@ void StandardModes::gotMessage(MAV_RESULT result, const mavlink_message_t &messa
             name,
             availableModes.standard_mode,
             availableModes.custom_mode,
-            true,
-            false,
+            !cannotBeSet,
+            advanced,
             false,
             false
         };

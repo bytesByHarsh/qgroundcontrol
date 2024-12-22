@@ -76,6 +76,36 @@ ArduCopterFirmwarePlugin::ArduCopterFirmwarePlugin(void)
         { APMCopterMode::TURTLE,       _turtleFlightMode        },
     });
 
+    updateAvailableFlightModes({
+        // Mode Name             ,SM, Custom Mode                CanBeSet  adv    FW      MR
+        { _stabilizeFlightMode   , 0, APMCopterMode::STABILIZE,     true , true , false , true },
+        { _acroFlightMode        , 0, APMCopterMode::ACRO,          true , true , false , true },
+        { _altHoldFlightMode     , 0, APMCopterMode::ALT_HOLD,      true , true , false , true },
+        { _autoFlightMode        , 0, APMCopterMode::AUTO,          true , true , false , true },
+        { _guidedFlightMode      , 0, APMCopterMode::GUIDED,        true , true , false , true },
+        { _loiterFlightMode      , 0, APMCopterMode::LOITER,        true , true , false , true },
+        { _rtlFlightMode         , 0, APMCopterMode::RTL,           true , true , false , true },
+        { _circleFlightMode      , 0, APMCopterMode::CIRCLE,        true , true , false , true },
+        { _landFlightMode        , 0, APMCopterMode::LAND,          true , true , false , true },
+        { _driftFlightMode       , 0, APMCopterMode::DRIFT,         true , true , false , true },
+        { _sportFlightMode       , 0, APMCopterMode::SPORT,         true , true , false , true },
+        { _flipFlightMode        , 0, APMCopterMode::FLIP,          true , true , false , true },
+        { _autotuneFlightMode    , 0, APMCopterMode::AUTOTUNE,      true , true , false , true },
+        { _posHoldFlightMode     , 0, APMCopterMode::POS_HOLD,      true , true , false , true },
+        { _brakeFlightMode       , 0, APMCopterMode::BRAKE,         true , true , false , true },
+        { _throwFlightMode       , 0, APMCopterMode::THROW,         true , true , false , true },
+        { _avoidADSBFlightMode   , 0, APMCopterMode::AVOID_ADSB,    true , true , false , true },
+        { _guidedNoGPSFlightMode , 0, APMCopterMode::GUIDED_NOGPS,  true , true , false , true },
+        { _smartRtlFlightMode    , 0, APMCopterMode::SMART_RTL,     true , true , false , true },
+        { _flowHoldFlightMode    , 0, APMCopterMode::FLOWHOLD,      true , true , false , true },
+        { _followFlightMode      , 0, APMCopterMode::FOLLOW,        true , true , false , true },
+        { _zigzagFlightMode      , 0, APMCopterMode::ZIGZAG,        true , true , false , true },
+        { _systemIDFlightMode    , 0, APMCopterMode::SYSTEMID,      true , true , false , true },
+        { _autoRotateFlightMode  , 0, APMCopterMode::AUTOROTATE,    true , true , false , true },
+        { _autoRTLFlightMode     , 0, APMCopterMode::AUTO_RTL,      true , true , false , true },
+        { _turtleFlightMode      , 0, APMCopterMode::TURTLE,        true , true , false , true },
+    });
+
     if (!_remapParamNameIntialized) {
         FirmwarePlugin::remapParamNameMap_t& remapV3_6 = _remapParamName[3][6];
 
@@ -156,7 +186,7 @@ QString ArduCopterFirmwarePlugin::gotoFlightMode() const
 
 void ArduCopterFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeMap.clear();
+    _availableFlightModeList.clear();
     for(auto mode: modeList){
         mode.fixedWing = false;
         mode.multiRotor = true;

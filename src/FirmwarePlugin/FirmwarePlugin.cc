@@ -570,7 +570,7 @@ Autotune* FirmwarePlugin::createAutotune(Vehicle *vehicle)
 
 void FirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeMap.clear();
+    _availableFlightModeList.clear();
 
     for(auto mode: modeList){
         _updateModeMappings(mode);
@@ -593,5 +593,6 @@ void FirmwarePlugin::_updateModeMappings(FirmwareFlightMode &mode){
         // Mode Is New for QGC
         _modeEnumToString[mode.custom_mode] = nModeName;
     }
-    _availableFlightModeMap[nModeName] = mode;
+    mode.mode_name = nModeName;
+    _availableFlightModeList += mode;
 }

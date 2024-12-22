@@ -49,6 +49,25 @@ ArduRoverFirmwarePlugin::ArduRoverFirmwarePlugin(void)
         {APMRoverMode::INITIALIZING , _initializingFlightMode},
     });
 
+    updateAvailableFlightModes({
+        // Mode Name              , SM, Custom Mode                CanBeSet  adv    FW      MR
+        { _manualFlightMode       , 0 , APMRoverMode::MANUAL       , true , true , false , true},
+        { _acroFlightMode         , 0 , APMRoverMode::ACRO         , true , true , false , true},
+        { _learningFlightMode     , 0 , APMRoverMode::LEARNING     , true , true , false , true},
+        { _steeringFlightMode     , 0 , APMRoverMode::STEERING     , true , true , false , true},
+        { _holdFlightMode         , 0 , APMRoverMode::HOLD         , true , true , false , true},
+        { _loiterFlightMode       , 0 , APMRoverMode::LOITER       , true , true , false , true},
+        { _followFlightMode       , 0 , APMRoverMode::FOLLOW       , true , true , false , true},
+        { _simpleFlightMode       , 0 , APMRoverMode::SIMPLE       , true , true , false , true},
+        { _dockFlightMode         , 0 , APMRoverMode::DOCK         , true , true , false , true},
+        { _circleFlightMode       , 0 , APMRoverMode::CIRCLE       , true , true , false , true},
+        { _autoFlightMode         , 0 , APMRoverMode::AUTO         , true , true , false , true},
+        { _rtlFlightMode          , 0 , APMRoverMode::RTL          , true , true , false , true},
+        { _smartRtlFlightMode     , 0 , APMRoverMode::SMART_RTL    , true , true , false , true},
+        { _guidedFlightMode       , 0 , APMRoverMode::GUIDED       , true , true , false , true},
+        { _initializingFlightMode , 0 , APMRoverMode::INITIALIZING , true , true , false , true},
+    });
+
     if (!_remapParamNameIntialized) {
         FirmwarePlugin::remapParamNameMap_t& remapV3_5 = _remapParamName[3][5];
 
@@ -77,7 +96,7 @@ bool ArduRoverFirmwarePlugin::supportsNegativeThrust(Vehicle* /*vehicle*/)
 
 void ArduRoverFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeMap.clear();
+    _availableFlightModeList.clear();
     for(auto mode: modeList){
         mode.fixedWing = false;
         mode.multiRotor = true;
