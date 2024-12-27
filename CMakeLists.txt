@@ -553,4 +553,8 @@ elseif(MACOS)
     install(SCRIPT "${CMAKE_SOURCE_DIR}/cmake/CreateMacDMG.cmake")
 endif()
 
+## Enforce Handling of All Enum Cases
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wswitch -Werror=switch")
+
+
 include(printSummary)
