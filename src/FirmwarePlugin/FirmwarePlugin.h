@@ -131,6 +131,15 @@ public:
     /// Returns the flight mode for Land
     virtual QString landFlightMode(void) const { return QString(); }
 
+    /// Returns the flight mode for TakeOff
+    virtual QString takeOffFlightMode(void) const { return QString(); }
+
+    /// Returns the flight mode for Motor Detection
+    virtual QString motorDetectionFlightMode(void) const { return QString(); }
+
+    /// Returns the flight mode for Stabilized
+    virtual QString stabilizedFlightMode(void) const { return QString(); }
+
     /// Returns the flight mode to use when the operator wants to take back control from autonomouse flight.
     virtual QString takeControlFlightMode(void) const { return QString(); }
 
@@ -403,7 +412,7 @@ protected:
     virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
 
     // Update internal mappings for a specific mode
-    void             _updateModeMappings(FirmwareFlightMode &mode);
+    void             _updateModeMappings(FlightModeList &modeList);
 
     FlightModeList              _availableFlightModeList;
     FlightModeCustomModeMap     _modeEnumToString;

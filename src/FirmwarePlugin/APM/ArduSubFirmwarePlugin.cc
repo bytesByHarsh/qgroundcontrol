@@ -354,14 +354,24 @@ void ArduSubFirmwarePlugin::adjustMetaData(MAV_TYPE vehicleType, FactMetaData* m
     }
 }
 
+QString ArduSubFirmwarePlugin::stabilizedFlightMode() const
+{
+    return _modeEnumToString.value(APMSubMode::STABILIZE, _stabilizeFlightMode);
+}
+
+QString ArduSubFirmwarePlugin::motorDetectionFlightMode() const
+{
+    return _modeEnumToString.value(APMSubMode::MOTORDETECTION, _motorDetectionFlightMode);
+}
+
 void ArduSubFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeList.clear();
-    for(auto mode: modeList){
+    for(auto &mode: modeList){
         mode.fixedWing = false;
         mode.multiRotor = true;
-        _updateModeMappings(mode);
     }
+
+    _updateModeMappings(modeList);
 }
 
 uint32_t ArduSubFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const

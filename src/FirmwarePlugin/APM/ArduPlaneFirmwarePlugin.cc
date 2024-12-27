@@ -110,14 +110,19 @@ int ArduPlaneFirmwarePlugin::remapParamNameHigestMinorVersionNumber(int majorVer
     return majorVersionNumber == 3 ? 10 : Vehicle::versionNotSetValue;
 }
 
+QString ArduPlaneFirmwarePlugin::stabilizedFlightMode() const
+{
+    return _modeEnumToString.value(APMPlaneMode::STABILIZE, _stabilizeFlightMode);
+}
+
 void ArduPlaneFirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeList.clear();
-    for(auto mode: modeList){
+    for(auto &mode: modeList){
         mode.fixedWing = true;
         mode.multiRotor = true;
-        _updateModeMappings(mode);
     }
+
+    _updateModeMappings(modeList);
 }
 
 uint32_t ArduPlaneFirmwarePlugin::_convertToCustomFlightModeEnum(uint32_t val) const
