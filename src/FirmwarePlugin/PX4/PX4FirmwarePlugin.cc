@@ -78,25 +78,25 @@ PX4FirmwarePlugin::PX4FirmwarePlugin()
     });
 
     updateAvailableFlightModes({
-        // Mode Name            ,SM, Custom Mode                      CanBeSet  adv    FW      MR
-        { _manualFlightMode     , 0, PX4CustomMode::MANUAL            , true ,  true , true  , true  },
-        { _stabilizedFlightMode , 0, PX4CustomMode::STABILIZED        , true ,  true , true  , true  },
-        { _acroFlightMode       , 0, PX4CustomMode::ACRO              , true ,  true , true  , true  },
-        { _rattitudeFlightMode  , 0, PX4CustomMode::RATTITUDE         , true ,  false, true  , true  },
-        { _altCtlFlightMode     , 0, PX4CustomMode::ALTCTL            , true ,  false, true  , true  },
-        { _offboardFlightMode   , 0, PX4CustomMode::OFFBOARD          , true ,  true , false , true  },
-        { _simpleFlightMode     , 0, PX4CustomMode::SIMPLE            , false,  false, false , true  },
-        { _posCtlFlightMode     , 0, PX4CustomMode::POSCTL_POSCTL     , true ,  false, true  , true  },
-        { _orbitFlightMode      , 0, PX4CustomMode::POSCTL_ORBIT      , false,  true , false , false },
-        { _holdFlightMode       , 0, PX4CustomMode::AUTO_LOITER       , true ,  true , true  , true  },
-        { _missionFlightMode    , 0, PX4CustomMode::AUTO_MISSION      , true ,  true , true  , true  },
-        { _rtlFlightMode        , 0, PX4CustomMode::AUTO_RTL          , true ,  true , true  , true  },
-        { _followMeFlightMode   , 0, PX4CustomMode::AUTO_FOLLOW_TARGET, true ,  false, false , true  },
-        { _landingFlightMode    , 0, PX4CustomMode::AUTO_LAND         , false,  true , true  , true  },
-        { _preclandFlightMode   , 0, PX4CustomMode::AUTO_PRECLAND     , true ,  true , false , true  },
-        { _readyFlightMode      , 0, PX4CustomMode::AUTO_READY        , false,  false, true  , true  },
-        { _rtgsFlightMode       , 0, PX4CustomMode::AUTO_RTGS         , false,  false, true  , true  },
-        { _takeoffFlightMode    , 0, PX4CustomMode::AUTO_TAKEOFF      , false,  false, true  , true  },
+        // Mode Name            , Custom Mode                      CanBeSet  adv
+        { _manualFlightMode     , PX4CustomMode::MANUAL            , true ,  true },
+        { _stabilizedFlightMode , PX4CustomMode::STABILIZED        , true ,  true },
+        { _acroFlightMode       , PX4CustomMode::ACRO              , true ,  true },
+        { _rattitudeFlightMode  , PX4CustomMode::RATTITUDE         , true ,  false},
+        { _altCtlFlightMode     , PX4CustomMode::ALTCTL            , true ,  false},
+        { _offboardFlightMode   , PX4CustomMode::OFFBOARD          , true ,  true },
+        { _simpleFlightMode     , PX4CustomMode::SIMPLE            , false,  false},
+        { _posCtlFlightMode     , PX4CustomMode::POSCTL_POSCTL     , true ,  false},
+        { _orbitFlightMode      , PX4CustomMode::POSCTL_ORBIT      , false,  true },
+        { _holdFlightMode       , PX4CustomMode::AUTO_LOITER       , true ,  true },
+        { _missionFlightMode    , PX4CustomMode::AUTO_MISSION      , true ,  true },
+        { _rtlFlightMode        , PX4CustomMode::AUTO_RTL          , true ,  true },
+        { _followMeFlightMode   , PX4CustomMode::AUTO_FOLLOW_TARGET, true ,  false},
+        { _landingFlightMode    , PX4CustomMode::AUTO_LAND         , false,  true },
+        { _preclandFlightMode   , PX4CustomMode::AUTO_PRECLAND     , true ,  true },
+        { _readyFlightMode      , PX4CustomMode::AUTO_READY        , false,  false},
+        { _rtgsFlightMode       , PX4CustomMode::AUTO_RTGS         , false,  false},
+        { _takeoffFlightMode    , PX4CustomMode::AUTO_TAKEOFF      , false,  false},
     });
 }
 
@@ -790,8 +790,6 @@ const QVariantList& PX4FirmwarePlugin::toolIndicators(const Vehicle* vehicle)
 
 void PX4FirmwarePlugin::updateAvailableFlightModes(FlightModeList modeList)
 {
-    _availableFlightModeList.clear();
-
     for(auto &mode: modeList){
         PX4CustomMode::Mode cMode = static_cast<PX4CustomMode::Mode>(mode.custom_mode);
 

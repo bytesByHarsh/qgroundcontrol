@@ -38,6 +38,31 @@ struct FirmwareFlightMode
     bool        advanced        = false;
     bool        fixedWing       = false;
     bool        multiRotor      = true;
+
+    FirmwareFlightMode(QString mName, uint32_t cMode, bool cbs = false, bool adv = false)
+        : mode_name     (mName)
+        , standard_mode (0)
+        , custom_mode   (cMode)
+        , canBeSet      (cbs)
+        , advanced      (adv)
+        , fixedWing     (false)
+        , multiRotor    (true)
+    {
+    }
+
+    FirmwareFlightMode(QString mName, uint8_t sMode, uint32_t cMode,
+                       bool cbs = false, bool adv = false,
+                       bool fWing = false, bool mRotor = true
+    )
+        : mode_name     (mName)
+        , standard_mode (sMode)
+        , custom_mode   (cMode)
+        , canBeSet      (cbs)
+        , advanced      (adv)
+        , fixedWing     (fWing)
+        , multiRotor    (mRotor)
+    {
+    }
 };
 
 typedef QList<FirmwareFlightMode>         FlightModeList;

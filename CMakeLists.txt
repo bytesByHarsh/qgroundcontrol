@@ -554,7 +554,11 @@ elseif(MACOS)
 endif()
 
 ## Enforce Handling of All Enum Cases
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wswitch -Werror=switch")
 
+if(WIN32)
+    add_compile_options(/w44265 /we44265)
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wswitch -Werror=switch")
+endif()
 
 include(printSummary)
