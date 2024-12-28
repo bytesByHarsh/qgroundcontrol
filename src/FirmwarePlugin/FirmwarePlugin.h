@@ -436,7 +436,7 @@ protected:
     // Convert Base enum to Derived class Enums
     virtual uint32_t _convertToCustomFlightModeEnum(uint32_t val) const { return val;}
 
-    // Update internal mappings for a specific mode
+    // Update internal mappings for a list of flight modes
     void             _updateModeMappings(FlightModeList &modeList);
 
     FlightModeList              _availableFlightModeList;

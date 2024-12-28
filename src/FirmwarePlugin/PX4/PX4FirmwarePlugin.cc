@@ -120,7 +120,7 @@ QStringList PX4FirmwarePlugin::flightModes(Vehicle* vehicle)
 {
     QStringList flightModesList;
 
-    for (auto mode : _availableFlightModeList) {
+    for (auto &mode : _availableFlightModeList) {
         if (mode.canBeSet){
             bool fw = (vehicle->fixedWing() && mode.fixedWing);
             bool mc = (vehicle->multiRotor() && mode.multiRotor);
